@@ -4,17 +4,26 @@
     GridLayout:
         cols: 1
         size: root.width, root.height
+        Label:
+            text: root.text
+        Label:
+            text: root.text2
+        Label:
+            text: root.text3
         GridLayout:
             cols: 3
             Button:
                 text: "Rock"
                 id: button_rock
                 on_press: root.setRock()
+
             Button:
                 text: "Paper"
                 id: button_paper
                 on_press: root.setPaper()
+
             Button:
                 text: "Scissor"
                 id: button_scissor
                 on_press: root.setScissor()
+
