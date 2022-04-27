@@ -1,0 +1,62 @@
+#:kivy 2.1.0
+
+<GameLayout>:
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        Label:
+            text: root.text1
+
+        GridLayout:
+            cols: 3
+
+            Button:
+                text: " "
+                id: space_1
+                on_press: root.random()
+
+            Button:
+                text: " "
+                id: space_2
+                # on_press: root.Method
+
+            Button:
+                text: " "
+                id: space_3
+                # on_press: root.METHOD
+
+        GridLayout:
+            cols: 3
+
+            Button:
+                text: " "
+                id: space_4
+                # on_press: root.METHOD
+
+            Button:
+                text: " "
+                id: space_5
+                # on_press: root.METHOD
+
+            Button:
+                text: " "
+                id: space_6
+                # on_press: root.METHOD
+
+        GridLayout:
+            cols: 3
+
+            Button:
+                text: " "
+                id: space_7
+                # on_press: root.METHOD
+
+            Button:
+                text: " "
+                id: space_8
+                # on_press: root.METHOD
+
+            Button:
+                text: " "
+                id: space_9
+                # on_press: root.METHOD
