@@ -1,0 +1,118 @@
+#:kivy 2.1.0
+
+GameLayout:
+
+<GameLayout>:
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "TicTacToe"
+        GameFunction:
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: .5, .5
+            pos_hint: {"center_x": .5}
+            GridLayout:
+                cols: 3
+                rows: 3
+                Button:
+                    id: button_1
+                    text: "1"
+                    color: 1, .2, .6, .4
+                    background_color: .7, 0, .6, .4
+                Button:
+                    id: button_2
+                    text: "2"
+                    color: 1, .2, .6, .4
+                    background_color: 1, 1, 1, .2
+                Button:
+                    id: button_3
+                    text: "3"
+                    color: 1, .2, .6, .4
+                    background_color: .7, 0, .6, .4
+                Button:
+                    id: button_4
+                    text: "4"
+                    color: 1, .2, .6, .4
+                    background_color: 1, 1, 1, .2
+                Button:
+                    id: button_5
+                    text: "5"
+                    color: 1, .2, .6, .4
+                    background_color: .7, 0, .6, .4
+                Button:
+                    id: button_6
+                    text: "6"
+                    color: 1, .2, .6, .4
+                    background_color: 1, 1, 1, .2
+                Button:
+                    id: button_6
+                    text: "7"
+                    color: 1, .2, .6, .4
+                    background_color: .7, 0, .6, .4
+                Button:
+                    id: button_8
+                    text: "8"
+                    color: 1, .2, .6, .4
+                    background_color: 1, 1, 1, .2
+                Button:
+                    id: button_9
+                    text: "9"
+                    color: 1, .2, .6, .4
+                    background_color: .7, 0, .6, .4
+
+<GameFunction>:
+    GridLayout:
+        cols: 3
+        rows: 3
+        Label:
+            text: root.space_1
+        Label:
+            text: root.space_2
+        Label:
+            text: root.space_3
+        Label:
+            text: root.space_4
+        Label:
+            text: root.space_5
+        Label:
+            text: root.space_6
+        Label:
+            text: root.space_7
+        Label:
+            text: root.space_8
+        Label:
+            text: root.space_9
+
+
+        # BoxLayout:
+            # orientation: "horizontal"
+            # size_hint: .1, .1
+            # pos_hint: {"center_x": .5, "center_y": 0}
+            # ToggleButton:
+            #     id: toggle_2
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_2
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_3
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_4
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_5
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_6
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_7
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_8
+            #     # disabled:
+            # ToggleButton:
+            #     id: toggle_9
+            #     # disabled:
