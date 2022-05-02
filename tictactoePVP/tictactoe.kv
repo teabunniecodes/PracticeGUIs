@@ -19,49 +19,59 @@ GameMethods:
                     text: "1"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_2
                     text: "2"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_3
                     text: "3"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_4
                     text: "4"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_5
                     text: "5"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_6
                     text: "6"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_7
                     text: "7"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_8
                     text: "8"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
                 Button:
                     id: button_9
                     text: "9"
                     font_size: .5 * self.height
                     on_press: root.onPress(self)
+                    disabled: root.bEnabled
         Button:
             text: "Reset?"
             size_hint: .5, .1
             pos_hint: {"center_x": .5}
-            disabled: root.bEnabled
+            on_press: root.onReset(self)
+            disabled: not root.bEnabled
             

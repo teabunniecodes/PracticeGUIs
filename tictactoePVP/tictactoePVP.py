@@ -8,7 +8,7 @@ class GameMethods(BoxLayout):
     player = "X"
     winner = False
     text = StringProperty("Tic Tac Toe!")
-    bEnabled = True
+    bEnabled = BooleanProperty(False)
     theWins = [
         # horizantal win conditions
         [0, 1, 2],
@@ -25,32 +25,41 @@ class GameMethods(BoxLayout):
         [2, 4, 6]
     ]
 
+
     # gives the parameters of a turn
     def onPress(self, widget):
         # places an X in the space during X's turn
         if self.player == "X":
-            self.wins()
             x = int(widget.text) - 1
             widget.text = self.player
             self.buttons[x] = self.player
+            widget.disabled = True
             self.wins()
             self.player = "O"
-            widget.disabled = True
 
         # places an O in the space if it is a valid input when it is O's turn
         else:
             x = int(widget.text) - 1
             widget.text = self.player
             self.buttons[x] = self.player
+            widget.disabled = True
             self.wins()
             self.player = "X"
-            widget.disabled = True
 
     # defines how to win the game and checks if met
     def wins(self):
         if any(self.buttons[win[0]] == self.buttons[win[1]] == self.buttons[win[2]] for win in self.theWins):
             self.text = f"Congrats {self.player} has won!"
             self.winner = True
+            self.bEnabled = True
+
+    def onReset(self, widget):
+        if self.bEnabled == True:
+            self.text = "Tic Tac Toe!"
+            self.bEnabled = False
+
+
+
 
 class TicTacToe(App):
     def build(self):
