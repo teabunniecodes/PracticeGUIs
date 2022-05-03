@@ -8,6 +8,9 @@ GameMethods:
         Label:
             text: root.text
             size_hint: 1, .1
+        # Label:
+        #     text: root.score
+        #     size_hint: 1, .1
         BoxLayout:
             orientation: "horizontal"
             pos_hint: {"center_x": .5}
@@ -72,6 +75,6 @@ GameMethods:
             text: "Reset?"
             size_hint: .5, .1
             pos_hint: {"center_x": .5}
-            on_press: root.onReset(self)
+            on_press: root.onReset()
             disabled: not root.bEnabled
             
