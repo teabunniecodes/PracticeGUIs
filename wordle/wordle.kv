@@ -1,0 +1,135 @@
+#:kivy 2.1.0
+WordleLayout:
+
+<WordleLayout>:
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Wordle"
+            font_size: .75 * self.height
+            size_hint: 1, .3
+        GuessLayout:
+        TextInput:
+            id: text_input_guess
+            size_hint: .6, .3
+            pos_hint: {"center_x": 0.5}
+            multiline: False
+            on_text_validate: 
+
+<GuessLayout@BoxLayout>:
+    orientation: "vertical"
+    LetterGrid1:
+    LetterGrid2:
+    LetterGrid3:
+    LetterGrid4:
+    LetterGrid5:
+    LetterGrid6:
+
+<LetterGrid1@GridLayout>:
+    cols: 5
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "1"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "1"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "1"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "1"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "1"
+
+<LetterGrid2@GridLayout>:
+    cols: 5
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "2"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "2"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "2"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "2"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "2"
+
+<LetterGrid3@GridLayout>:
+    cols: 5
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "3"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "3"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "3"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "3"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "3"
+
+<LetterGrid4@GridLayout>:
+    cols: 5
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "4"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "4"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "4"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "4"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "4"
+
+<LetterGrid5@GridLayout>:
+    cols: 5
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "5"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "5"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "5"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "5"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "5"
+
+<LetterGrid6@GridLayout>:
+    cols: 5
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "6"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "6"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "6"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "6"
+    Label:
+        size_hint: dp(100), dp(100)
+        text: "6"
+    
