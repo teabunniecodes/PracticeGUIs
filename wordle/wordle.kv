@@ -1,135 +1,229 @@
 #:kivy 2.1.0
+#:set x dp(60)
+
 WordleLayout:
 
 <WordleLayout>:
     BoxLayout:
         orientation: "vertical"
         Label:
-            text: "Wordle"
+            text: "Wordle!"
             font_size: .75 * self.height
-            size_hint: 1, .3
+            size_hint: .6, .1
+            pos_hint: {"center_x": .5}
+        Label:
+            text: text_input_guess.text
+            font_size: .5 * self.height
+            size_hint: 1, .1
+            pos_hint: {"center_y": 0}
         GuessLayout:
+            size_hint: .7, 1
         TextInput:
             id: text_input_guess
-            size_hint: .6, .3
+            size_hint: .6, .1
             pos_hint: {"center_x": 0.5}
             multiline: False
-            on_text_validate: 
+            # on_text_validate: 
 
 <GuessLayout@BoxLayout>:
     orientation: "vertical"
+    pos_hint: {"center_x": .5}
     LetterGrid1:
+        padding: dp(10)
     LetterGrid2:
+        padding: dp(10)
     LetterGrid3:
+        padding: dp(10)
     LetterGrid4:
+        padding: dp(10)
     LetterGrid5:
+        padding: dp(10)
     LetterGrid6:
+        padding: dp(10)
 
 <LetterGrid1@GridLayout>:
     cols: 5
+    size_hint: .6, 1
+    pos_hint: {"center_x": .5}
+    # padding: dp(10)
+    spacing: dp(10)
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
 
 <LetterGrid2@GridLayout>:
     cols: 5
+    size_hint: .6, 1
+    pos_hint: {"center_x": .5}
+    spacing: dp(10)
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
 
 <LetterGrid3@GridLayout>:
     cols: 5
+    size_hint: .6, 1
+    pos_hint: {"center_x": .5}
+    spacing: dp(10)
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
 
 <LetterGrid4@GridLayout>:
     cols: 5
+    size_hint: .6, 1
+    pos_hint: {"center_x": .5}
+    spacing: dp(10)
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
 
 <LetterGrid5@GridLayout>:
     cols: 5
+    size_hint: .6, 1
+    pos_hint: {"center_x": .5}
+    spacing: dp(10)
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
 
 <LetterGrid6@GridLayout>:
     cols: 5
+    size_hint: .6, 1
+    pos_hint: {"center_x": .5}
+    spacing: dp(10)
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
     Label:
-        size_hint: dp(100), dp(100)
+        canvas:
+            Line:
+                rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
-    
