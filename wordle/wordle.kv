@@ -6,24 +6,249 @@ WordleLayout:
 <WordleLayout>:
     BoxLayout:
         orientation: "vertical"
+        size_hint: .7, 1
         Label:
             text: "Wordle!"
             font_size: .75 * self.height
             size_hint: .6, .1
             pos_hint: {"center_x": .5}
         Label:
-            text: text_input_guess.text
+            text: ""
+            id: label
             font_size: .5 * self.height
             size_hint: 1, .1
-            pos_hint: {"center_y": 0}
-        GuessLayout:
+            # padding_y: {(dp(10), dp(10))}
+            pos_hint: {"center_y": .05}
+        BoxLayout:
+            orientation: "vertical"
             size_hint: .7, 1
+            pos_hint: {"center_x": .5}
+            GridLayout:
+                cols: 5
+                rows: 1
+                cols: 5
+                size_hint: .6, 1
+                pos_hint: {"center_x": .5}
+                spacing: dp(10)
+                padding: dp(10)
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "1"
+                    id: Guess1Letter1
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "1"
+                    id: Guess1Letter2
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "1"
+                    id: Guess1Letter3
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "1"
+                    id: Guess1Letter4
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "1"
+                    id: Guess1Letter5
+            GridLayout:
+                cols: 5
+                size_hint: .6, 1
+                pos_hint: {"center_x": .5}
+                spacing: dp(10)
+                padding: dp(10)
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "2"
+                    id: Guess2Letter1
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "2"
+                    id: Guess2Letter2
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "2"
+                    id: Guess2Letter3
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "2"
+                    id: Guess2Letter4
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "2"
+                    id: Guess2Letter5
+            GridLayout:
+                cols: 5
+                size_hint: .6, 1
+                pos_hint: {"center_x": .5}
+                spacing: dp(10)
+                padding: dp(10)
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "3"
+                    id: Guess3Letter1
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "3"
+                    id: Guess3Letter2
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "3"
+                    id: Guess3Letter3
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "3"
+                    id: Guess3Letter4
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "3"
+                    id: Guess3Letter5
+            GridLayout:
+                cols: 5
+                size_hint: .6, 1
+                pos_hint: {"center_x": .5}
+                spacing: dp(10)
+                padding: dp(10)
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "4"
+                    id: Guess4Letter1
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "4"
+                    id: Guess4Letter2
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "4"
+                    id: Guess4Letter3
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "4"
+                    id: Guess4Letter4
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "4"
+                    id: Guess4Letter5
+            GridLayout:
+                cols: 5
+                size_hint: .6, 1
+                pos_hint: {"center_x": .5}
+                spacing: dp(10)
+                padding: dp(10)
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "5"
+                    id: Guess5Letter1
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "5"
+                    id: Guess5Letter2
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "5"
+                    id: Guess5Letter3
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "5"
+                    id: Guess5Letter4
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "5"
+                    id: Guess5Letter5
+            GridLayout:
+                cols: 5
+                size_hint: .6, 1
+                pos_hint: {"center_x": .5}
+                spacing: dp(10)
+                padding: dp(10)
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "6"
+                    id: Guess6Letter1
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "6"
+                    id: Guess6Letter2
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "6"
+                    id: Guess6Letter3
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "6"
+                    id: Guess6Letter4
+                Label:
+                    canvas:
+                        Line:
+                            rectangle: (self.x, self.y, self.width, self.height)
+                    text: "6"
+                    id: Guess6Letter5
         TextInput:
             id: text_input_guess
             size_hint: .6, .1
             pos_hint: {"center_x": 0.5}
             multiline: False
-            # on_text_validate: 
+            on_text_validate: root.user_guess(self)
+            on_touch_down:
+                text: ""
 
 <GuessLayout@BoxLayout>:
     orientation: "vertical"
@@ -52,26 +277,31 @@ WordleLayout:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
+        id: Guess1Letter1
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
+        id: Guess1Letter2
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
+        id: Guess1Letter3
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
+        id: Guess1Letter4
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "1"
+        id: Guess1Letter5
 
 <LetterGrid2@GridLayout>:
     cols: 5
@@ -83,26 +313,31 @@ WordleLayout:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
+        id: Guess2Letter1
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
+        id: Guess2Letter2
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
+        id: Guess2Letter3
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
+        id: Guess2Letter4
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "2"
+        id: Guess2Letter5
 
 <LetterGrid3@GridLayout>:
     cols: 5
@@ -114,26 +349,31 @@ WordleLayout:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
+        id: Guess3Letter1
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
+        id: Guess3Letter2
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
+        id: Guess3Letter3
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
+        id: Guess3Letter4
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "3"
+        id: Guess3Letter5
 
 <LetterGrid4@GridLayout>:
     cols: 5
@@ -145,26 +385,31 @@ WordleLayout:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
+        id: Guess4Letter1
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
+        id: Guess4Letter2
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
+        id: Guess4Letter3
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
+        id: Guess4Letter4
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "4"
+        id: Guess4Letter5
 
 <LetterGrid5@GridLayout>:
     cols: 5
@@ -176,26 +421,31 @@ WordleLayout:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
+        id: Guess5Letter1
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
+        id: Guess5Letter2
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
+        id: Guess5Letter3
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
+        id: Guess5Letter4
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "5"
+        id: Guess5Letter5
 
 <LetterGrid6@GridLayout>:
     cols: 5
@@ -207,23 +457,28 @@ WordleLayout:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
+        id: Guess6Letter1
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
+        id: Guess6Letter2
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
+        id: Guess6Letter3
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
+        id: Guess6Letter4
     Label:
         canvas:
             Line:
                 rectangle: (self.x, self.y, self.width, self.height)
         text: "6"
+        id: Guess6Letter5
