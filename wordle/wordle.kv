@@ -1,77 +1,12 @@
 #:kivy 2.1.0
+#:set padding 20
 
-WordleLayout:
+FloatLayout:
+    Board:
+        id: board
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        size_hint: None, None
+        center: root.center
+        size: [(min(root.width, root.height) - 2 * padding), (min(root.width, root.height) - 2 * padding)]
 
-<WordleLayout>:
-    BoxLayout:
-        orientation: "vertical"
-        size_hint: .7, 1
-        padding: dp(20)
-        spacing: dp(10)
-        Label:
-            text: "Wordle!"
-            font_size: .75 * self.height
-            size_hint: .6, .1
-            pos_hint: {"center_x": .5}
-        Label:
-            text: "hi"
-            id: word
-            font_size: .75 * self.height
-            size_hint: .6, .05
-            pos_hint: {"center_x": .5}
-        GuessLayout:
-        Label:
-            text: ""
-            id: label
-            font_size: .5 * self.height
-            size_hint: 1, .1
-            # padding_y: {(dp(10), dp(10))}
-            pos_hint: {"center_y": .05}
-        TextInput:
-            id: text_input_guess
-            size_hint: (.3, None)
-            height: dp(40)
-            focus: True
-            padding_y: (dp(10), dp(10))
-            pos_hint: {"center_x": 0.5}
-            multiline: False
-            on_text_validate: 
-            on_touch_down:
-                text: ""
-
-<GuessLayout@BoxLayout>:
-    orientation: "vertical"
-    pos_hint: {"center_x": .5}
-    size_hint: {.7, 1}
-    spacing: dp(10)
-    GridLayout:
-        id: turn1
-    GridLayout:
-        id: turn2
-    GridLayout:
-        id: turn3
-    GridLayout:
-        id: turn4
-    GridLayout:
-        id: turn5
-    GridLayout:
-        id: turn6
-
-<LetterBox@Label>:
-    canvas:
-        Line:
-            rectangle: (self.x, self.y, self.height, self.height)
-    text: ""
-    bold: True
-    pos_hint: {"center_x": .5}
-    spacing: dp(10)
-
-<GridLayout>:
-    cols: 5
-    size_hint: .6, 1
-    pos_hint: {"center_x": .5}
-    LetterBox:
-    LetterBox:
-    LetterBox:
-    LetterBox:
-    LetterBox:
+# <WordleLayout>:

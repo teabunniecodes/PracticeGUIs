@@ -1,75 +1,57 @@
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
+from kivy.graphics import BorderImage, Color, Line
 from kivy.uix.widget import Widget
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.properties import StringProperty
-from kivy.metrics import dp
-import string, random
+from kivy.utils import get_color_from_hex
 
-class WordleLayout(BoxLayout):
-    turns = 0
-    alphabet = list(string.ascii_uppercase)
-    is_playing = True
-    play_answer = True
-    won_or_lost = False
+spacing = 10
+
+def all_cells():
+    for x in range(5):
+        for y in range(6):
+            yield (x, y)
+
+class Board(Widget):
+    b = None
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super(Board, self).__init__(**kwargs)
+        self.resize()
 
-    def get_word(self):
-        # gets a random word from a text document
-        with open("wordle\words.txt") as words:
-            self.words = words.read()
-            # create a list of the words
-            self.words = self.words.strip().split("\n")
-            # randomly chooses a word from the list
-            self.chosen_word = random.choice(self.words).upper()
-    
-    def check_dictionary(self):
-        with open("wordle\dictionary.txt") as dictionary:
-            self.dictionary = dictionary.read()
-            #create a list of words from the dictionary
-            self.dictionary = self.dictionary.strip().split("\n")
-    
-    def user_guess(self, widget):
-        self.guess = (self.ids["text_input_guess"].text).upper()
-        self.get_word()
-        self.check_dictionary()
-        self.check_guess()
-        self.input_guess()
+    def reset(self):
+        self.b = [[None for i in range(5)] 
+            for j in range(6)]
 
-    def input_guess(self):
-        # this will place the letters in the boxes
-        if self.turns < 6:
-            for x in range(len(self.guess)):
-                self.ids[f"Guess{self.turns}Letter{x+1}"].text = self.guess[x]
-            self.ids["text_input_guess"].text = ""
-    
-    def check_guess(self):
-        if self.guess.lower() in self.dictionary or self.guess.lower() in self.words:
-                # self.is_win()
-                # self.color_guess()
-                # self.display_alphabet()
-                self.turns += 1
-        elif self.guess.isalpha():
-            if len(self.guess) < 5:
-                self.ids["label"].text = "The word is to short!"
-                self.ids["text_input_guess"].text = ""
-            elif len(self.guess) > 5:
-                self.ids["label"].text = "The word is to long!"
-                self.ids["text_input_guess"].text = ""
-            elif len(self.guess) == 5:
-                self.ids["label"].text = "Stop making up words >:O"
-                self.ids["text_input_guess"].text = ""
-        else:
-            print("Not a valid word -_-")
+    def resize(self, *args):
+        self.cell_size = (.2 * (self.height - 6 * spacing), ) * 2
+        self.canvas.before.clear()
+        with self.canvas.before:
+            BorderImage(pos = self.pos, 
+                size = self.size, 
+                source = 'board.png')
+            Color(*get_color_from_hex('#262626'))
+            for pos_x, pos_y in all_cells():
+                BorderImage(pos = self.cell_pos(pos_x, pos_y), 
+                    size = self.cell_size, 
+                    source = 'cell.png')
+
+    on_pos = resize
+    on_size = resize
+
+    def cell_pos(self, pos_x, pos_y):
+        return (self.x + pos_x * 
+            (self.cell_size[0] + spacing) + spacing, 
+            self.y + pos_y * 
+            (self.cell_size[1] + spacing) + spacing)
 
 class WordleApp(App):
-    def build(self):
-        return WordleLayout()
+    def on_start(self):
+        # board = self.root.ids.board
+        # board.reset()
+        return Board()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
+    from kivy.core.window import Window
+    Window.clearcolor = get_color_from_hex('#FFFFFF')
+
     WordleApp().run()
