@@ -9,4 +9,5 @@ wordle/altwordle.kv
 wordle/altwordleapp.py
 wordle/longwordle.kv
 wordle/longwordleapp.py
+wordle/wordlevenv/
 /minesweeper/

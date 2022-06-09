@@ -2,11 +2,44 @@
 #:set padding 20
 
 FloatLayout:
+    Label:
+        text: 'Wordle'
+        size_hint: (1, None)
+        height: 50
+        pos_hint: {'center_y': .9}
+    Label:
+        id: game_text
+        text: 'hi'
+        size_hint: (1, None)
+        height: 30
+        pos_hint: {'center_y': .83}
+        bold: False
     Board:
         id: board
-        pos_hint: {'center_x': .5, 'center_y': .5}
+        pos_hint: {'center_x': .5, 'center_y': .45}
         size_hint: None, None
         center: root.center
-        size: [(min(root.width, root.height) - 2 * padding), (min(root.width, root.height) - 2 * padding)]
+        size: [350, 420]
 
-# <WordleLayout>:
+
+<Label>:
+    font_size: self.height * .75
+    bold: True
+
+<Tile>:
+    canvas:
+        Color:
+            rgb: self.color
+
+        BorderImage:
+            pos: self.pos
+            size: self.size
+            source: 'cell.png'
+
+    Label:
+        pos: root.pos
+        size: root.size
+        bold: True
+        # color: root.number_color
+        font_size: root.font_size
+        text: root.letter_guess
