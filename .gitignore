@@ -4,10 +4,5 @@ tictactoePVP/__pycache__/
 tictactoePVP/tttPVP_layout.py
 tictactoePVP/tttPVP_methods.py
 test.py
-wordle/outline
-wordle/altwordle.kv
-wordle/altwordleapp.py
-wordle/longwordle.kv
-wordle/longwordleapp.py
-wordle/wordlevenv/
+wordle/.venv/
 /minesweeper/

@@ -2,21 +2,18 @@ import string, random
 from kivy.app import App
 from kivy.graphics import BorderImage, Color, Line
 from kivy.uix.widget import Widget
+from kivy.uix.label import Label
 from kivy.utils import get_color_from_hex
 from kivy.core.window import Keyboard
 from kivy.properties import NumericProperty, ListProperty, StringProperty
 
 spacing = 10
 alphabet = list(string.ascii_uppercase)
-turns = 6
 guess = ''
 BOARD_WIDTH = 5
 BOARD_HEIGHT = 6
 
 # TODO replace magic numbers (AKA 5, 6 with constant variables (Board Height, Width, turns))
-
-# Emerald Green - #50C878
-# Canary Yellow - #FFFF8F
 
 def all_cells():
     for x in range(BOARD_WIDTH):
@@ -29,29 +26,12 @@ with open("wordle\words.txt") as words:
     words = words.read()
     # create a list of the words
     words = words.strip().split("\n")
-    # randomly chooses a word from the list
-    chosen_word = random.choice(words).upper()
+    chosen_word = ''
 
 with open("wordle\dictionary.txt") as dictionary:
     dictionary = dictionary.read()
     #create a list of words from the dictionary
     dictionary = dictionary.strip().split("\n")
-
-class GameLogic():
-    # set up win and lose parameters
-    def is_win(self, guess):
-        if guess == chosen_word:
-            print("You Won!")
-            # self.won_or_lost = True
-            # self.is_playing = False
-    def is_lose(self):
-        if turns == 0: #and not self.won_or_lost:
-            print("You Lost :(")
-            print(f"The word was {chosen_word.upper()}")
-            # self.won_or_lost = True
-            # self.is_playing = False
-    # set up play again function
-    pass
 
 class Tile(Widget):
     font_size = NumericProperty(24)
@@ -62,14 +42,38 @@ class Tile(Widget):
         super().__init__(**kwargs)
         self.font_size = 0.5 * self.width
 
-class Game_Text(Widget):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.game_text = StringProperty('')
+class GameLogic:
+    def __init__(self):
+        self.chosen_word = self.choose_word()
+        print(self.chosen_word)
+    # chooses the word for the 
+    def choose_word(self):
+        # randomly chooses a word from the list
+        return random.choice(words).upper()
+
+    # set up win and lose parameters
+    def is_win(self, guess):
+        if guess == self.chosen_word:
+            print("You Won!")
+            # self.won_or_lost = True
+            # self.is_playing = False
+    def is_lose(self):
+        if self.row == 0: #and not self.won_or_lost:
+            print("You Lost :(")
+            print(f"The word was {self.chosen_word.upper()}")
+            # self.won_or_lost = True
+            # self.is_playing = False
+    # set up play again function
+
+
+class GameText(Label):
+    # def __init__(self, **kwargs):
+    #     super().__init__(**kwargs)
+    game_text = StringProperty('')
 
 class Board(Widget):
-    text = Game_Text()
     b = None
+    logic = GameLogic()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -116,6 +120,32 @@ class Board(Widget):
         else:
             pass
 
+    def color_guess(self, guess):
+        guess_letter = list(guess)
+        chosen_letters = list(self.logic.chosen_word)
+        # first loops through to check the letters in the correct spot
+        for x, letter in enumerate(guess):
+            if guess_letter[x] == chosen_letters[x]:
+                chosen_letters[x] = "*"
+                color_tile = Tile(pos = self.cell_pos(x, self.row),
+                                    size = self.cell_size, 
+                                    color = get_color_from_hex('#50C878'))
+                color_tile.letter_guess = guess_letter[x]
+                self.b[self.row][x] = color_tile
+                self.add_widget(color_tile)
+
+        # then loops through to check if remaining letters are in the word
+        for x, letter in enumerate(guess):
+            if letter in chosen_letters:
+                # need to replace at the index of the letter
+                chosen_letters[chosen_letters.index(letter)] = "*"
+                color_tile = Tile(pos = self.cell_pos(x, self.row),
+                                    size = self.cell_size, 
+                                    color = get_color_from_hex('#FFC300'))
+                color_tile.letter_guess = guess_letter[x]
+                self.b[self.row][x] = color_tile
+                self.add_widget(color_tile)
+
     def letter_del(self, *args):
         # if I delete a letter I nee to self.col -= 1 and remove the cell
         self.user_guess.pop()
@@ -126,12 +156,13 @@ class Board(Widget):
         guess = "".join(self.user_guess)
         # when I hit enter to submit a word (only when at the end of a column) set self.col = 0 and self.row -= 1
         if self.col == 5 and (guess.lower() in dictionary or guess.lower() in words):
+            self.color_guess(guess)
             self.row -= 1
             self.col = 0
+            self.logic.is_win(guess)
             self.user_guess.clear()
         elif self.col == 5 and (guess.lower() not in dictionary or guess.lower() in words):
-            print('Not A Word >:O')
-            self.text.game_text = 'Not A Word >:O'
+            self.parent.ids.game_text.game_text = 'Not A Word >:O'
             self.user_guess.clear()
             # need to figure out how to delete all the widgets in the row
             for x in range(self.col):
@@ -139,7 +170,7 @@ class Board(Widget):
                 self.col = 0 
         else:
             # if enter hit before 5 letters submitted then yells at the player :D
-            print('Word not long enough')
+            self.parent.ids.game_text.game_text = 'Word not long enough'
             pass
     
     def on_key_down(self, window, key, *args):
@@ -169,3 +200,4 @@ if __name__ == '__main__':
     Window.clearcolor = get_color_from_hex('#262626')
 
     WordleApp().run()
+    # App.get_running_app()
