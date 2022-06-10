@@ -57,14 +57,13 @@ class GameLogic:
             print("You Won!")
             # self.won_or_lost = True
             # self.is_playing = False
-    def is_lose(self):
-        if self.row == 0: #and not self.won_or_lost:
+    def is_lose(self, turn):
+        if turn == 0: #and not self.won_or_lost:
             print("You Lost :(")
             print(f"The word was {self.chosen_word.upper()}")
             # self.won_or_lost = True
             # self.is_playing = False
     # set up play again function
-
 
 class GameText(Label):
     # def __init__(self, **kwargs):
@@ -73,6 +72,7 @@ class GameText(Label):
 
 class Board(Widget):
     b = None
+    turns = 6
     logic = GameLogic()
 
     def __init__(self, **kwargs):
@@ -112,7 +112,7 @@ class Board(Widget):
         letter_tile = Tile(pos = self.cell_pos(self.col, self.row),
             size = self.cell_size)
         letter_tile.letter_guess = key_input
-        if self.col < 5:
+        if self.col < 5 and self.row >= 0:
             self.user_guess.append(letter_tile.letter_guess)
             self.b[self.row][self.col] = letter_tile
             self.col += 1
@@ -121,30 +121,32 @@ class Board(Widget):
             pass
 
     def color_guess(self, guess):
-        guess_letter = list(guess)
+        # guess_letter = list(guess)
         chosen_letters = list(self.logic.chosen_word)
         # first loops through to check the letters in the correct spot
         for x, letter in enumerate(guess):
-            if guess_letter[x] == chosen_letters[x]:
+            if guess[x] == chosen_letters[x]:
                 chosen_letters[x] = "*"
                 color_tile = Tile(pos = self.cell_pos(x, self.row),
                                     size = self.cell_size, 
                                     color = get_color_from_hex('#50C878'))
-                color_tile.letter_guess = guess_letter[x]
+                color_tile.letter_guess = guess[x]
                 self.b[self.row][x] = color_tile
                 self.add_widget(color_tile)
-
+        print(chosen_letters)
         # then loops through to check if remaining letters are in the word
+        # TODO FIX THE DUPLICATE LETTERS turning yellow
         for x, letter in enumerate(guess):
             if letter in chosen_letters:
                 # need to replace at the index of the letter
-                chosen_letters[chosen_letters.index(letter)] = "*"
+                chosen_letters[chosen_letters.index(letter)] = "^"
                 color_tile = Tile(pos = self.cell_pos(x, self.row),
                                     size = self.cell_size, 
                                     color = get_color_from_hex('#FFC300'))
-                color_tile.letter_guess = guess_letter[x]
+                color_tile.letter_guess = guess[x]
                 self.b[self.row][x] = color_tile
                 self.add_widget(color_tile)
+        print(chosen_letters)
 
     def letter_del(self, *args):
         # if I delete a letter I nee to self.col -= 1 and remove the cell
@@ -157,9 +159,11 @@ class Board(Widget):
         # when I hit enter to submit a word (only when at the end of a column) set self.col = 0 and self.row -= 1
         if self.col == 5 and (guess.lower() in dictionary or guess.lower() in words):
             self.color_guess(guess)
-            self.row -= 1
             self.col = 0
             self.logic.is_win(guess)
+            self.turns -= 1
+            self.logic.is_lose(self.turns)
+            self.row -= 1
             self.user_guess.clear()
         elif self.col == 5 and (guess.lower() not in dictionary or guess.lower() in words):
             self.parent.ids.game_text.game_text = 'Not A Word >:O'
@@ -172,7 +176,7 @@ class Board(Widget):
             # if enter hit before 5 letters submitted then yells at the player :D
             self.parent.ids.game_text.game_text = 'Word not long enough'
             pass
-    
+
     def on_key_down(self, window, key, *args):
         if chr(key).upper() in alphabet:
             self.letter_input(chr(key).upper())
