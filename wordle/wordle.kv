@@ -6,6 +6,8 @@ FloatLayout:
         text: 'Wordle'
         size_hint: (1, None)
         height: 50
+        font_size: self.height * .75
+        bold: True
         pos_hint: {'center_y': .9}
     GameText:
         id: game_text
@@ -23,9 +25,20 @@ FloatLayout:
 <GameText>:
     text: root.game_text
 
-<Label>:
-    font_size: self.height * .75
-    bold: True
+<PopupWindow>:
+    orientation: 'vertical'
+    Label:
+        text: root.popup_text
+    Label:
+        text: root.chosen_word_text
+    Label:
+        text: 'Play Again?'
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            text: 'Yes'
+        Button:
+            text: 'No'
 
 <Tile>:
     canvas:

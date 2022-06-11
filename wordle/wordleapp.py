@@ -1,10 +1,13 @@
 import string, random
 from kivy.app import App
-from kivy.graphics import BorderImage, Color, Line
+from kivy.config import Config
+from kivy.graphics import BorderImage, Color
 from kivy.uix.widget import Widget
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 from kivy.utils import get_color_from_hex
-from kivy.core.window import Keyboard
+# from kivy.core.window import Keyboard
 from kivy.properties import NumericProperty, ListProperty, StringProperty
 
 spacing = 10
@@ -42,9 +45,23 @@ class Tile(Widget):
         super().__init__(**kwargs)
         self.font_size = 0.5 * self.width
 
-class GameLogic:
+class PopupWindow(BoxLayout):
+    popup_text = StringProperty('Hi')
+    chosen_word_text = StringProperty('')
+
+def show_popup():
+    show = PopupWindow()
+    popup = Popup(title='Test popup', content=show,
+            size_hint=(None, None), size=(250, 250), auto_dismiss = False)
+    popup.open()
+
+# set up play again function
+
+class GameLogic(Widget):
     def __init__(self):
+        self.won_or_lost = False
         self.chosen_word = self.choose_word()
+        # self.chosen_word = 'PUTTY'
         print(self.chosen_word)
     # chooses the word for the 
     def choose_word(self):
@@ -55,25 +72,27 @@ class GameLogic:
     def is_win(self, guess):
         if guess == self.chosen_word:
             print("You Won!")
-            # self.won_or_lost = True
+            self.won_or_lost = True
             # self.is_playing = False
+            show_popup()
+            print('WORK >:O')
+            
     def is_lose(self, turn):
-        if turn == 0: #and not self.won_or_lost:
+        if turn == 0 and not self.won_or_lost:
             print("You Lost :(")
             print(f"The word was {self.chosen_word.upper()}")
-            # self.won_or_lost = True
+            self.won_or_lost = True
             # self.is_playing = False
-    # set up play again function
 
 class GameText(Label):
     # def __init__(self, **kwargs):
     #     super().__init__(**kwargs)
-    game_text = StringProperty('')
+    game_text = StringProperty('Turns Left: 6')
 
 class Board(Widget):
+    logic = GameLogic()
     b = None
     turns = 6
-    logic = GameLogic()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -112,10 +131,11 @@ class Board(Widget):
         letter_tile = Tile(pos = self.cell_pos(self.col, self.row),
             size = self.cell_size)
         letter_tile.letter_guess = key_input
-        if self.col < 5 and self.row >= 0:
+        if self.col < 5 and self.row >= 0 and not self.logic.won_or_lost:
             self.user_guess.append(letter_tile.letter_guess)
             self.b[self.row][self.col] = letter_tile
             self.col += 1
+            self.parent.ids.game_text.game_text = f'Turns Left: {self.turns}'
             self.add_widget(letter_tile)
         else:
             pass
@@ -133,31 +153,30 @@ class Board(Widget):
                 color_tile.letter_guess = guess[x]
                 self.b[self.row][x] = color_tile
                 self.add_widget(color_tile)
-        print(chosen_letters)
-        # then loops through to check if remaining letters are in the word
-        # TODO FIX THE DUPLICATE LETTERS turning yellow
-        for x, letter in enumerate(guess):
-            if letter in chosen_letters:
+                # then loops through to check if remaining letters are in the word
+        # for x, letter in enumerate(guess):
+            elif letter in chosen_letters:
                 # need to replace at the index of the letter
-                chosen_letters[chosen_letters.index(letter)] = "^"
+                chosen_letters[chosen_letters.index(letter)] = "*"
                 color_tile = Tile(pos = self.cell_pos(x, self.row),
                                     size = self.cell_size, 
                                     color = get_color_from_hex('#FFC300'))
                 color_tile.letter_guess = guess[x]
                 self.b[self.row][x] = color_tile
                 self.add_widget(color_tile)
-        print(chosen_letters)
+        # TODO FIX THE DUPLICATE LETTERS turning yellow
 
     def letter_del(self, *args):
         # if I delete a letter I nee to self.col -= 1 and remove the cell
         self.user_guess.pop()
         self.col -= 1
+        self.parent.ids.game_text.game_text = f'Turns Left: {self.turns}'
         self.remove_widget(self.b[self.row][self.col])
 
     def word_submit(self):
         guess = "".join(self.user_guess)
         # when I hit enter to submit a word (only when at the end of a column) set self.col = 0 and self.row -= 1
-        if self.col == 5 and (guess.lower() in dictionary or guess.lower() in words):
+        if self.col == 5 and (guess.lower() in dictionary or guess.lower() in words) and not self.logic.won_or_lost:
             self.color_guess(guess)
             self.col = 0
             self.logic.is_win(guess)
@@ -165,6 +184,7 @@ class Board(Widget):
             self.logic.is_lose(self.turns)
             self.row -= 1
             self.user_guess.clear()
+            self.parent.ids.game_text.game_text = f'Turns Left: {self.turns}'
         elif self.col == 5 and (guess.lower() not in dictionary or guess.lower() in words):
             self.parent.ids.game_text.game_text = 'Not A Word >:O'
             self.user_guess.clear()
@@ -176,6 +196,9 @@ class Board(Widget):
             # if enter hit before 5 letters submitted then yells at the player :D
             self.parent.ids.game_text.game_text = 'Word not long enough'
             pass
+
+        if self.logic.is_lose(self.turns):
+            print('boo')
 
     def on_key_down(self, window, key, *args):
         if chr(key).upper() in alphabet:
@@ -189,7 +212,6 @@ class Board(Widget):
             # as letters are inputted they are added to a list to become a string to check against the dictionary and chosen word
 
 # TODO
-# set colors in a list to change the color of the labels (green, yellow)
 # decide if I want to display alphabet with letters chosen colored
 
 class WordleApp(App):
@@ -200,6 +222,10 @@ class WordleApp(App):
 
 
 if __name__ == '__main__':
+    Config.set('graphics', 'width', '440')
+    Config.set('graphics', 'height', '600')
+    Config.set('graphics', 'resizable', '0')
+
     from kivy.core.window import Window
     Window.clearcolor = get_color_from_hex('#262626')
 
