@@ -46,13 +46,14 @@ class Tile(Widget):
         self.font_size = 0.5 * self.width
 
 class PopupWindow(BoxLayout):
-    popup_text = StringProperty('Hi')
-    chosen_word_text = StringProperty('')
+    pass
 
-def show_popup():
+def show_popup(text1, text2):
     show = PopupWindow()
-    popup = Popup(title='Test popup', content=show,
+    popup = Popup(title='Play Again?', content=show,
             size_hint=(None, None), size=(250, 250), auto_dismiss = False)
+    show.ids.popup_text.text = text1
+    show.ids.chosen_word_text.text = text2
     popup.open()
 
 # set up play again function
@@ -62,7 +63,7 @@ class GameLogic(Widget):
         self.won_or_lost = False
         self.chosen_word = self.choose_word()
         # self.chosen_word = 'PUTTY'
-        print(self.chosen_word)
+        # print(self.chosen_word)
     # chooses the word for the 
     def choose_word(self):
         # randomly chooses a word from the list
@@ -71,17 +72,18 @@ class GameLogic(Widget):
     # set up win and lose parameters
     def is_win(self, guess):
         if guess == self.chosen_word:
-            print("You Won!")
             self.won_or_lost = True
+            text1 = 'You Won!!!!'
+            text2 = 'Congratulations!'
+            show_popup(text1, text2)
             # self.is_playing = False
-            show_popup()
-            print('WORK >:O')
             
     def is_lose(self, turn):
         if turn == 0 and not self.won_or_lost:
-            print("You Lost :(")
-            print(f"The word was {self.chosen_word.upper()}")
+            text1 = 'You Lost :('
+            text2 = f'The word was {self.chosen_word.upper()}'
             self.won_or_lost = True
+            show_popup(text1, text2)
             # self.is_playing = False
 
 class GameText(Label):
@@ -196,9 +198,6 @@ class Board(Widget):
             # if enter hit before 5 letters submitted then yells at the player :D
             self.parent.ids.game_text.game_text = 'Word not long enough'
             pass
-
-        if self.logic.is_lose(self.turns):
-            print('boo')
 
     def on_key_down(self, window, key, *args):
         if chr(key).upper() in alphabet:
