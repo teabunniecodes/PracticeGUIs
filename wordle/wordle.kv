@@ -1,7 +1,7 @@
 #:kivy 2.1.0
 #:set padding 20
 
-FloatLayout:
+<WordleRoot>:
     Label:
         text: 'Wordle'
         size_hint: (1, None)
@@ -42,10 +42,13 @@ FloatLayout:
         orientation: 'horizontal'
         size_hint: (1, .25)
         Button:
+            id: yes
             text: 'Yes'
+            on_release: root.play_again(self)
         Button:
+            id: no
             text: 'No'
-
+            on_release: root.play_again(self)
 <Tile>:
     canvas:
         Color:
