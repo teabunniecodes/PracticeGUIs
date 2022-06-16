@@ -4,17 +4,22 @@ from kivy.config import Config
 from kivy.graphics import BorderImage, Color
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.utils import get_color_from_hex
 from kivy.properties import NumericProperty, ListProperty, StringProperty
+
+Config.set('graphics', 'width', '440')
+Config.set('graphics', 'height', '600')
+Config.set('graphics', 'resizable', '0')
 
 spacing = 10
 alphabet = list(string.ascii_uppercase)
 guess = ''
 BOARD_WIDTH = 5
 BOARD_HEIGHT = 6
+
+# TODO replace magic numbers (AKA 5, 6 with constant variables (Board Height, Width, turns))
 
 def all_cells():
     for x in range(BOARD_WIDTH):
@@ -43,17 +48,12 @@ class Tile(Widget):
         super().__init__(**kwargs)
         self.font_size = 0.5 * self.width
 
-class PopupWindow(BoxLayout):
-    def play_again(self, widget):
-        if widget == self.ids.yes:
-            App.get_running_app().restart()
-        if widget == self.ids.no:
-            App.get_running_app().stop()
-
 def show_popup(text1, text2):
     show = PopupWindow()
     popup = Popup(title='Play Again?', content=show,
             size_hint=(None, None), size=(250, 250), auto_dismiss = False)
+    # dismiss = popup.dismiss()
+    show.ids.yes.bind(on_release = popup.dismiss)
     show.ids.popup_text.text = text1
     show.ids.chosen_word_text.text = text2
     popup.open()
@@ -65,7 +65,7 @@ class GameLogic(Widget):
         self.won_or_lost = False
         self.chosen_word = self.choose_word()
         # self.chosen_word = 'PUTTY'
-        # print(self.chosen_word)
+        print(self.chosen_word)
     # chooses the word for the 
     def choose_word(self):
         # randomly chooses a word from the list
@@ -150,7 +150,7 @@ class Board(Widget):
         # first loops through to check the letters in the correct spot
         for x, letter in enumerate(guess):
             if guess[x] == chosen_letters[x]:
-                chosen_letters[x] = '*'
+                chosen_letters[x] = "*"
                 color_tile = Tile(pos = self.cell_pos(x, self.row),
                                     size = self.cell_size, 
                                     color = get_color_from_hex('#50C878'))
@@ -161,7 +161,7 @@ class Board(Widget):
         # for x, letter in enumerate(guess):
             elif letter in chosen_letters:
                 # need to replace at the index of the letter
-                chosen_letters[chosen_letters.index(letter)] = '*'
+                chosen_letters[chosen_letters.index(letter)] = "*"
                 color_tile = Tile(pos = self.cell_pos(x, self.row),
                                     size = self.cell_size, 
                                     color = get_color_from_hex('#FFC300'))
@@ -178,7 +178,7 @@ class Board(Widget):
         self.remove_widget(self.b[self.row][self.col])
 
     def word_submit(self):
-        guess = ''.join(self.user_guess)
+        guess = "".join(self.user_guess)
         # when I hit enter to submit a word (only when at the end of a column) set self.col = 0 and self.row -= 1
         if self.col == 5 and (guess.lower() in dictionary or guess.lower() in words) and not self.logic.won_or_lost:
             self.color_guess(guess)
@@ -193,13 +193,15 @@ class Board(Widget):
             self.parent.ids.game_text.game_text = 'Not A Word >:O'
             self.user_guess.clear()
             # need to figure out how to delete all the widgets in the row
+            # self.clear_widgets()
+            # self.row = 5
+            # self.turns = 6
             for x in range(self.col):
                 self.remove_widget(self.b[self.row][x])
-                self.col = 0 
+                self.col = 0
         else:
             # if enter hit before 5 letters submitted then yells at the player :D
             self.parent.ids.game_text.game_text = 'Word not long enough'
-            pass
 
     def on_key_down(self, window, key, *args):
         if chr(key).upper() in alphabet:
@@ -208,37 +210,44 @@ class Board(Widget):
             self.letter_del()
         if key == 13:
             self.word_submit()
-
     # tip: do one thing per function: ie: on key down you switch between your actions, the letter concatenate leave for other part of code (aka leave logic for another method)
 
-class WordleRoot(FloatLayout):
-    pass
+    def restart(self):
+        self.turns = 6
+        self.row = 5
+        self.logic.won_or_lost = False
+        # self.remove_widget(self.b[5][0])
+        self.clear_widgets()
+        # for x in range(self.row):
+        #     for y in range(self.col):
+        #         self.remove_widget(self.b[x][y])
+
+            # as letters are inputted they are added to a list to become a string to check against the dictionary and chosen word
+
+class PopupWindow(BoxLayout):
+    def play_again(self, widget):
+        board = Board()
+        if widget == self.ids.yes:
+            print(board.logic.won_or_lost)
+            board.restart()
+            print(board.logic.won_or_lost)
+            print('I have restarted')
+        if widget == self.ids.no:
+            App.get_running_app().stop()
 
 # TODO
 # decide if I want to display alphabet with letters chosen colored
 
 class WordleApp(App):
-    def build(self):
-        root_widget = WordleRoot()
-        Window.bind(on_key_down = root_widget.ids.board.on_key_down)
-        root_widget.ids.board.logic.won_or_lost = False
-        return root_widget
-
     def on_start(self):
         board = self.root.ids.board
         board.reset()
+        Window.bind(on_key_down = board.on_key_down)
 
-    def restart(self):
-        self.root.clear_widgets()
-        self.stop()
-        return WordleApp().run()
 
 if __name__ == '__main__':
-    Config.set('graphics', 'width', '440')
-    Config.set('graphics', 'height', '600')
-    Config.set('graphics', 'resizable', '0')
-
     from kivy.core.window import Window
     Window.clearcolor = get_color_from_hex('#262626')
 
     WordleApp().run()
+    # App.get_running_app()
