@@ -9,6 +9,8 @@ from kivy.uix.popup import Popup
 from kivy.utils import get_color_from_hex
 from kivy.properties import NumericProperty, ListProperty, StringProperty
 
+global current_board
+
 Config.set('graphics', 'width', '440')
 Config.set('graphics', 'height', '600')
 Config.set('graphics', 'resizable', '0')
@@ -16,6 +18,7 @@ Config.set('graphics', 'resizable', '0')
 spacing = 10
 alphabet = list(string.ascii_uppercase)
 guess = ''
+current_board = None
 BOARD_WIDTH = 5
 BOARD_HEIGHT = 6
 
@@ -58,14 +61,12 @@ def show_popup(text1, text2):
     show.ids.chosen_word_text.text = text2
     popup.open()
 
-# set up play again function
-
 class GameLogic(Widget):
     def __init__(self):
         self.won_or_lost = False
         self.chosen_word = self.choose_word()
         # self.chosen_word = 'PUTTY'
-        print(self.chosen_word)
+        # print(self.chosen_word)
     # chooses the word for the 
     def choose_word(self):
         # randomly chooses a word from the list
@@ -78,7 +79,6 @@ class GameLogic(Widget):
             text1 = 'You Won!!!!'
             text2 = 'Congratulations!'
             show_popup(text1, text2)
-            # self.is_playing = False
             
     def is_lose(self, turn):
         if turn == 0 and not self.won_or_lost:
@@ -86,11 +86,8 @@ class GameLogic(Widget):
             text2 = f'The word was {self.chosen_word.upper()}'
             self.won_or_lost = True
             show_popup(text1, text2)
-            # self.is_playing = False
 
 class GameText(Label):
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
     game_text = StringProperty('Turns Left: 6')
 
 class Board(Widget):
@@ -104,6 +101,8 @@ class Board(Widget):
         self.col = 0
         self.user_guess = []
         self.resize()
+        global current_board
+        current_board = self
 
     def reset(self):
         self.b = [[None for i in range(5)] 
@@ -145,7 +144,6 @@ class Board(Widget):
             pass
 
     def color_guess(self, guess):
-        # guess_letter = list(guess)
         chosen_letters = list(self.logic.chosen_word)
         # first loops through to check the letters in the correct spot
         for x, letter in enumerate(guess):
@@ -157,8 +155,7 @@ class Board(Widget):
                 color_tile.letter_guess = guess[x]
                 self.b[self.row][x] = color_tile
                 self.add_widget(color_tile)
-                # then loops through to check if remaining letters are in the word
-        # for x, letter in enumerate(guess):
+            # then loops through to check if remaining letters are in the word
             elif letter in chosen_letters:
                 # need to replace at the index of the letter
                 chosen_letters[chosen_letters.index(letter)] = "*"
@@ -168,16 +165,15 @@ class Board(Widget):
                 color_tile.letter_guess = guess[x]
                 self.b[self.row][x] = color_tile
                 self.add_widget(color_tile)
-        # TODO FIX THE DUPLICATE LETTERS turning yellow
 
     def letter_del(self, *args):
-        # if I delete a letter I nee to self.col -= 1 and remove the cell
         self.user_guess.pop()
         self.col -= 1
         self.parent.ids.game_text.game_text = f'Turns Left: {self.turns}'
         self.remove_widget(self.b[self.row][self.col])
 
     def word_submit(self):
+        # as letters are inputted they are added to a list to become a string to check against the dictionary and chosen word
         guess = "".join(self.user_guess)
         # when I hit enter to submit a word (only when at the end of a column) set self.col = 0 and self.row -= 1
         if self.col == 5 and (guess.lower() in dictionary or guess.lower() in words) and not self.logic.won_or_lost:
@@ -192,10 +188,6 @@ class Board(Widget):
         elif self.col == 5 and (guess.lower() not in dictionary or guess.lower() in words):
             self.parent.ids.game_text.game_text = 'Not A Word >:O'
             self.user_guess.clear()
-            # need to figure out how to delete all the widgets in the row
-            # self.clear_widgets()
-            # self.row = 5
-            # self.turns = 6
             for x in range(self.col):
                 self.remove_widget(self.b[self.row][x])
                 self.col = 0
@@ -213,25 +205,16 @@ class Board(Widget):
     # tip: do one thing per function: ie: on key down you switch between your actions, the letter concatenate leave for other part of code (aka leave logic for another method)
 
     def restart(self):
+        self.logic = GameLogic()
         self.turns = 6
+        self.parent.ids.game_text.game_text = f'Turns Left: {self.turns}'
         self.row = 5
-        self.logic.won_or_lost = False
-        # self.remove_widget(self.b[5][0])
         self.clear_widgets()
-        # for x in range(self.row):
-        #     for y in range(self.col):
-        #         self.remove_widget(self.b[x][y])
-
-            # as letters are inputted they are added to a list to become a string to check against the dictionary and chosen word
 
 class PopupWindow(BoxLayout):
     def play_again(self, widget):
-        board = Board()
         if widget == self.ids.yes:
-            print(board.logic.won_or_lost)
-            board.restart()
-            print(board.logic.won_or_lost)
-            print('I have restarted')
+            current_board.restart()
         if widget == self.ids.no:
             App.get_running_app().stop()
 
@@ -244,10 +227,8 @@ class WordleApp(App):
         board.reset()
         Window.bind(on_key_down = board.on_key_down)
 
-
 if __name__ == '__main__':
     from kivy.core.window import Window
     Window.clearcolor = get_color_from_hex('#262626')
 
     WordleApp().run()
-    # App.get_running_app()
